@@ -1,6 +1,6 @@
 import event as e
 
-class Wuu-bern:
+class Wuubern:
 
 	def __init__(self, numSites, mid):
 		self.myMC = [[0] * numSites for i in range(numSites)]
