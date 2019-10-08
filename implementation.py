@@ -1,5 +1,4 @@
 import event as e
-import timestamp as t
 
 class Wuu-bern:
 
@@ -25,7 +24,7 @@ class Wuu-bern:
 	def insert(self, event):
 		self.counter += 1
 		self.myMC[self.mID][self.mID] =  c
-		ins = Event("insert", c, self.mID)
+		ins = e.Event("insert", c, self.mID)
 		ins.insertOf(event)
 		self.log.add(ins)
 		self.dct.add(event)
@@ -33,7 +32,7 @@ class Wuu-bern:
 	def delete(selfevent):
 		self.counter += 1
 		self.myMC[self.mID][self.mID] =  c
-		de = Event("delete", c, mID)
+		de = e.Event("delete", c, mID)
 		de.deleteOf(event)
 		self.log.add(de)
 		self.dct.remove(event)
@@ -43,7 +42,6 @@ class Wuu-bern:
 		for ev in self.log:
 			if not hasRec(self.myMC, ev, oID):
 				np.add(ev)
-
 		return np
 
 	def recieve(self, oMC,oID, np):
