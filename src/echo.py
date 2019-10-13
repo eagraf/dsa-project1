@@ -4,7 +4,10 @@ import threading
 import time
 
 # Create a TCP/IP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_address = (sys.argv[1], int(sys.argv[2]))
+print("Starting echo %s port %s" % server_address)
+sock.bind(server_address)
 
 
 # Read in the list of known hosts.
@@ -24,7 +27,8 @@ def receive_messages():
     sock.bind(server_address)
 
     # Listen for incoming connections
-    sock.listen(1)
+    # No listen in UDP
+    #sock.listen(1)
 
     while True:
         # Wait for a connection
@@ -67,19 +71,26 @@ def broadcast(message):
         if int(host[2]) != int(sys.argv[2]):
             # Open a connection to each peer in a new thread
             print(host)
-            threading.Thread(target = send_peer, args = (host, message)).start()
+            sock.sendto(message, (host[1], int(host[2])))
+            #threading.Thread(target = send_peer, args = (host, message)).start()
+
+# The main thread of the program waits for the user to input messages
+def listen():
+    print("hoee")
+    while True:
+        print("o")
+        #message = input("Enter text: ")
+        data, server = sock.recvfrom(1024)
+        print("hello")
+        print(data.upper())
+        print(server)
 
 
 # Setup the listener thread
-threading.Thread(target = receive_messages).start()
+threading.Thread(target = listen).start()
 
-
-# The main thread of the program waits for the user to input messages
-while True:
-    #message = input("Enter text: ")
-    time.sleep(5)
-    broadcast("YOLO")
-
+time.sleep(5)
+broadcast(b'bola')
 
 
 
