@@ -48,10 +48,10 @@ class Wuubern:
 		self.log.add(ins)
 		self.dct.add(event)
 
-	def delete(selfevent):
+	def delete(self, event):
 		self.counter += 1
 		self.myMC[self.mID][self.mID] =  self.counter
-		de = e.Event("delete", self.counter, mID)
+		de = e.Event("delete", self.counter, self.mID)
 		de.deleteOf(event)
 		self.log.add(de)
 		self.dct.remove(event)
