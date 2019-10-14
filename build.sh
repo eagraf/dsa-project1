@@ -5,7 +5,7 @@ rm -rf bin
 mkdir bin
 
 # copy python files from src to bin
-cp -R src/  bin/
+cp src/*  bin/
 
 cp run.sh bin/
 
