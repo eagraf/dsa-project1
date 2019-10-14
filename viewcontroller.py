@@ -91,11 +91,12 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 
 			host = command[1]
 			messenger.send((hosts[host]['ip_address'], hosts[host]['udp_end_port']), pickle.dumps(m))
+
 		elif command[0] == "sendall":
-			for id in hostToID.values():
-				np, myMC = wu.send(id)
-				#add udp stuff
-			print("sendall command received")
+			for host in hosts.values():
+				np, myMC = wu.send(host['id'])
+				m = Message(np, myMC)
+				messenger.send((host['ip_address'], host['udp_end_port']), pickle.dumps(m))
 
 		elif command[0] == "clock":
 			print("clock command received")

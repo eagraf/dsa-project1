@@ -66,7 +66,6 @@ class Wuubern:
 		return np, self.myMC
 
 	def receive(self, oMC, oID, np):
-		print("hey!")
 		ne = set()
 		for ev in np:
 			if not self.hasRec(ev, self.mID):
