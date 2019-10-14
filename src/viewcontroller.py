@@ -69,7 +69,7 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 			print("Reservation for", command[1], "canceled")
 
 		elif command[0] == "view":
-			for ev in wu.dct:
+			for ev in sorted(wu.dict, key=lambda event: event.resUser):
 				print(ev.resUser , ev.resPlaneList, ev.resStatus)
 			#print("view command received")
 
