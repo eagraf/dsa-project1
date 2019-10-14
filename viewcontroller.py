@@ -48,6 +48,7 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 
 			spotsLeft = True
 			plns = command[2].split(',')
+			plns = [int(x) for x in plns]
 			for pln in plns:
 				if(not airport.checkSpot(pln)):
 					spotsLeft = False
