@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  client-a:
+    build: .
+    command: "./run.sh 172.28.1.1 7000"
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.1
+    stdin_open: true
+    tty: true
+  client-b:
+    build: .
+    command: "./run.sh 172.28.1.2 7001"
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.2
+    stdin_open: true
+    tty: true
+  client-c:
+    build: .
+    command: "./run.sh 172.28.1.3 7002"
+    networks:
+      testing_net:
+        ipv4_address: 172.28.1.3
+    stdin_open: true
+    tty: true
+
+networks:
+  testing_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16

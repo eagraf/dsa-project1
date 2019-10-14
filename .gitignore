@@ -1,3 +1,5 @@
 knownhosts.json
 /bin/*
 /__pycache__/*
+Dockerfile
+docker-compose.yml
