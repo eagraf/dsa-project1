@@ -1,7 +1,8 @@
 import socket
+import pickle
 import threading
 
-class Messenger():
+class Messenger:
 
     def __init__(self, host):
         self.send_address = (host['ip_address'], host['udp_start_port'])
@@ -22,4 +23,4 @@ class Messenger():
     def listen(self):
         while True:
             data, server = self.recv_sock.recvfrom(1024)
-            print(data)
+            print(pickle.loads(data))

@@ -2,8 +2,10 @@ import sys
 import os
 import time
 import json
+import pickle
 import implementation as imp
 from messenger import Messenger
+from message import Message
 
 def main():
 	siteID = sys.argv[1]
@@ -40,7 +42,8 @@ def handle_user_input(messenger, hosts):
 		elif command[0] == "send":
 			print("send command received")
 			host = command[1]
-			messenger.send((hosts[host]['ip_address'], hosts[host]['udp_end_port']))
+			m = Message("np", "clocko", "Waddup")	
+			messenger.send((hosts[host]['ip_address'], hosts[host]['udp_end_port']), pickle.dumps(m))
 		elif command[0] == "sendall":
 			print("sendall command received")
 		elif command[0] == "clock":
