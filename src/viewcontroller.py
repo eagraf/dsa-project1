@@ -46,7 +46,7 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport, stable_st
 	command = input().split(" ")
 	counter = 0
 	while command[0] != 'quit':
-		if command[0] == "reserve":
+		if command[0] == "reserve" and len(command) == 3:
 			counter += 1
 
 			spotsLeft = True
