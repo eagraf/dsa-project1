@@ -1,7 +1,9 @@
 import sys
+import os
 import time
 import json
 import implementation as imp
+from messenger import Messenger
 
 def main():
 	siteID = sys.argv[1]
@@ -9,17 +11,19 @@ def main():
 	with open('knownhosts.json') as hosts_file:
 		hosts = json.load(hosts_file)['hosts']
 
+	messenger = Messenger(hosts[siteID])
+
 	if len(sys.argv) >= 3:
 		handle_test_file()
 	else:
-		handle_user_input()
+		handle_user_input(messenger, hosts)
 
 
 def read_stable_storage():
 	''' If a stable storage file was written in this directory, read it to load dictionary '''
 	pass
 
-def handle_user_input():
+def handle_user_input(messenger, hosts):
 	''' Main loop for handling user input. '''
 	print("Handling user input")
 
@@ -35,6 +39,8 @@ def handle_user_input():
 			print("log command received")
 		elif command[0] == "send":
 			print("send command received")
+			host = command[1]
+			messenger.send((hosts[host]['ip_address'], hosts[host]['udp_end_port']))
 		elif command[0] == "sendall":
 			print("sendall command received")
 		elif command[0] == "clock":
@@ -50,6 +56,7 @@ def handle_user_input():
 		command = input().split(" ")
 
 	print("exiting...")
+	os._exit(0)
 
 def handle_test_file():
 	''' Execute a sequence of commands with timings rather than taking user input. '''
