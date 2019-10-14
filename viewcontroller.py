@@ -1,7 +1,9 @@
 import sys
+import os
 import time
 import json
 import implementation as imp
+from messenger import Messenger
 
 def main():
 	siteID = sys.argv[1]
@@ -14,19 +16,20 @@ def main():
 	for key in sorted(hosts.keys()):
 		hostToID[key] = count
 		count += 1
+	messenger = Messenger(hosts[siteID])
 
 	if len(sys.argv) >= 3:
 		handle_test_file()
 	else:
 		wu = imp.Wuubern(len(hosts) ,hostToID[siteID])
-		handle_user_input(wu)
+		handle_user_input(wu, messenger, hosts)
 
 
 def read_stable_storage():
 	''' If a stable storage file was written in this directory, read it to load dictionary '''
 	pass
 
-def handle_user_input(wu):
+def handle_user_input(wu, messenger, hosts):
 	''' Main loop for handling user input. '''
 	print("Handling user input")
 
@@ -61,9 +64,12 @@ def handle_user_input(wu):
 			np, myMC = wu.send(hostToID[command[1]])
 			if(len(commmand > 2)):
 				#if there is a message
+				continue
 			#add udp stuff
 			print("send command received")
 
+			host = command[1]
+			messenger.send((hosts[host]['ip_address'], hosts[host]['udp_end_port']))
 		elif command[0] == "sendall":
 			for id in hostToID.values():
 				np, myMC = wu.send(id)
@@ -83,6 +89,7 @@ def handle_user_input(wu):
 		command = input().split(" ")
 
 	print("exiting...")
+	os._exit(0)
 
 def handle_test_file():
 	''' Execute a sequence of commands with timings rather than taking user input. '''
