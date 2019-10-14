@@ -2,22 +2,23 @@ class Planes:
 
     def __init__(self):
         self.allPlanes = [[0, 0]  for i in range(20)]
+        self.users = dict()
 
     #returns true if spot, false if no stop
-    def checkSpot(self, plane):
+    def checkSpot(self, plane, name):
         if self.allPlanes[plane][0] != 0 and self.allPlanes[plane][0] != name:
             if self.allPlanes[plane][1] != 0 and self.allPlanes[plane][1] != name:
                 return False      
         return True
 
-    def checkPlanes(planesList):    
+    def checkPlanes(self, planesList, name):    
         spotsLeft = True
-		plns = planesList.split(',')
-		plns = [int(x) for x in plns]
-		for pln in plns:
-			if(not self.checkSpot(pln)):
-				spotsLeft = False
-				break
+        plns = planesList.split(',')
+        plns = [int(x) for x in plns]
+        for pln in plns:
+            if(not self.checkSpot(pln, name)):
+                spotsLeft = False
+                break
         return spotsLeft
     
     def bookSpot(self, plane, name):
@@ -40,26 +41,26 @@ class Planes:
             self.allPlanes[plane][0] = 0
         return True
 
-    def reservationPending(self, name, myID, numProcesses):
-        users[name] = list()
+    def addUser(self, name, myID, numProcesses):
+        self.users[name] = list()
         for i in range(numProcesses):
             if (i != myID):
-                users[name].append(i)
+                self.users[name].append(i)
     
-    def recieve(self, plane, currRecieve, wudict):
-        for user in users.keys():
-            users[user].remove(currRecieve)
+    def receive(self,currRecieve, wu):
+        for user in self.users.keys():
+            self.users[user].remove(currRecieve)
         
-        for user in users.keys():
-            if len(users[user]) == 0:
-                self.changeStatus(user, wudict)
+        for user in self.users.keys():
+            if len(self.users[user]) == 0:
+                self.changeStatus(user, wu)
 
-    def changeStatus(self, user, wudict):
+    def changeStatus(self, user, wu):
         for ev in sorted(wu.dct, key=lambda event: event.timeStamp):
-            spotsLeft = checkPlanes(ev.resPlaneList)
+            spotsLeft = self.checkPlanes(ev.resPlaneList, ev.resUser)
             if spotsLeft:
                 plns = ev.resPlaneList.split(',')
-		        plns = [int(x) for x in plns]
+                plns = [int(x) for x in plns]
                 for pln in plns:
                     self.bookSpot(pln, ev.resUser)
                 ev.resStatus = "confirmed"

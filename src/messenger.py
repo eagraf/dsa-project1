@@ -36,5 +36,7 @@ class Messenger:
                 if host['ip_address'] == server[0]:
                     pID = host['id']
 
-            for listener in self.listeners:
-                listener.receive(message.clock, pID, message.np) 
+            #for listener in self.listeners:
+            self.listeners[0].receive(message.clock, pID, message.np) 
+
+            self.listeners[2].receive(pID, self.listeners[0])

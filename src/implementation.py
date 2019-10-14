@@ -43,15 +43,15 @@ class Wuubern:
 	def hasRec(self, event, otherSite):
 		return self.myMC[otherSite][event.pID] >= event.timeStamp[0]
 
-	def happensBefore(mc1, mc2):
-		for i in range(len(self.myMC)):
-			for j in range(self.myMC[i]):
+	def happensBefore(self, mc1, mc2):
+		for i in range(len(mc1)):
+			for j in range(mc1[i]):
 				if mc2[i][j] > mc1[i][j]:
 					return False
 		return True
 
-	def concurrent(mc1, mc2):
-		return (not happensBefore(mc1, mc2) and not happensBefore(mc2, mc1))
+	def concurrent(self, mc1, mc2):
+		return (not self.happensBefore(mc1, mc2) and not self.happensBefore(mc2, mc1))
 
 	def insert(self, event):
 		self.counter += 1
@@ -120,6 +120,7 @@ class Wuubern:
 
 		self.log= newLog
 
+	
 
 
 
