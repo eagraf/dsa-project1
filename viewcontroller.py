@@ -4,6 +4,7 @@ import time
 import json
 import pickle
 import implementation as imp
+import event
 from messenger import Messenger
 from message import Message
 
@@ -24,14 +25,14 @@ def main():
 		handle_test_file()
 	else:
 		wu = imp.Wuubern(len(hosts) ,hostToID[siteID])
-		handle_user_input(wu, messenger, hosts)
+		handle_user_input(wu, messenger, hosts, hostToID, siteID)
 
 
 def read_stable_storage():
 	''' If a stable storage file was written in this directory, read it to load dictionary '''
 	pass
 
-def handle_user_input(wu, messenger, hosts):
+def handle_user_input(wu, messenger, hosts, hostToID, siteID):
 	''' Main loop for handling user input. '''
 	print("Handling user input")
 
@@ -40,7 +41,7 @@ def handle_user_input(wu, messenger, hosts):
 	while command[0] != 'quit':
 		if command[0] == "reserve":
 			counter += 1
-			ev = e.Event("Reservation", counter, hostToID[siteID])
+			ev = event.Event("Reservation", counter, hostToID[siteID])
 			ev.resInfo(command[1], "pending", command[2])
 			wu.insert(ev)
 			print("reserve command received")
@@ -64,7 +65,7 @@ def handle_user_input(wu, messenger, hosts):
 
 		elif command[0] == "send":
 			np, myMC = wu.send(hostToID[command[1]])
-			if(len(commmand > 2)):
+			if(len(command > 2)):
 				#if there is a message
 				continue
 			#add udp stuff
