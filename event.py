@@ -2,7 +2,7 @@ class Event:
 
 	def __init__(self, typ, timeStamp, pid):
 		self.time = timeStamp
-		#possible types are: reservation, insert, delete, send, recieve,
+		#possible types are: reservation, insert, delete
 		self.type = typ
 		self.pID = pid
 
@@ -36,8 +36,8 @@ class Event:
 			self.deleted = event
 
 	def resInfo(self,user, rstat, planes):
-		if self.type is not "reservation":
-			print("ERROR: Trying to add reservation info for non-reservation event")
+		if self.type is not "Reservation":
+			print("ERROR: Trying to add Reservation info for non-reservation event")
 		else:
 			self.resUser = user
 			self.resStatus = rstat
