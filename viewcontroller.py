@@ -18,13 +18,15 @@ def main():
 	count = 0
 	for key in sorted(hosts.keys()):
 		hostToID[key] = count
+		hosts[key]['id'] = count
 		count += 1
-	messenger = Messenger(hosts[siteID])
+	messenger = Messenger(hosts[siteID], hosts)
 
 	if len(sys.argv) >= 3:
 		handle_test_file()
 	else:
 		wu = imp.Wuubern(len(hosts) ,hostToID[siteID])
+		messenger.add_listener(wu)
 		handle_user_input(wu, messenger, hosts, hostToID, siteID)
 
 
