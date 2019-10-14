@@ -30,7 +30,7 @@ class Messenger:
         while True:
             data, server = self.recv_sock.recvfrom(1024)
             message = pickle.loads(data)
-            print(message.message)
+            #print(message.message)
             pID = -1
             for host in self.hosts.values():
                 if host['ip_address'] == server[0]:

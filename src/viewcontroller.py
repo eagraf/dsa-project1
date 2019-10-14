@@ -78,7 +78,7 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 				if(ev.type == "insert"):
 					print(ev.type, ev.inserted.resUser, ev.inserted.resPlaneList)
 				elif(ev.type == "delete"):
-					print(ev.type, ev.deleted.resUser, ev.deleted.resPlaneList)
+					print(ev.type, ev.deleted.resUser)
 			#print("log command received")
 
 		elif command[0] == "send":
