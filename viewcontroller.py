@@ -7,6 +7,7 @@ import implementation as imp
 import event
 from messenger import Messenger
 from message import Message
+import planes
 
 def main():
 	siteID = sys.argv[1]
@@ -21,20 +22,21 @@ def main():
 		hosts[key]['id'] = count
 		count += 1
 	messenger = Messenger(hosts[siteID], hosts)
+	airport = planes.Planes()
 
 	if len(sys.argv) >= 3:
 		handle_test_file()
 	else:
 		wu = imp.Wuubern(len(hosts) ,hostToID[siteID])
 		messenger.add_listener(wu)
-		handle_user_input(wu, messenger, hosts, hostToID, siteID)
+		handle_user_input(wu, messenger, hosts, hostToID, siteID, airport)
 
 
 def read_stable_storage():
 	''' If a stable storage file was written in this directory, read it to load dictionary '''
 	pass
 
-def handle_user_input(wu, messenger, hosts, hostToID, siteID):
+def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 	''' Main loop for handling user input. '''
 	print("Handling user input")
 
@@ -43,12 +45,24 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID):
 	while command[0] != 'quit':
 		if command[0] == "reserve":
 			counter += 1
+
+			spotsLeft = True
+			plns = command[2].split(',')
+			for pln in plns:
+				if(not airport.checkSpot(pln)):
+					spotsLeft = False
+					break
+			if not spotsLeft:
+				print("Cannot schedule reservation for", command[1])
+				continue
+
 			ev = event.Event("Reservation", counter, hostToID[siteID])
 			ev.resInfo(command[1], "pending", command[2])
 			wu.insert(ev)
 			print("reserve command received")
 
 		elif command[0] == "cancel":
+			counter += 1
 			for e in wu.dct:
 				if(e.resUser == command[1]):
 					wu.delete(ev)
