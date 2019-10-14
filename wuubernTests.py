@@ -9,12 +9,12 @@ def main():
 	wu2.printAll()
 
 	#insert event at wu1
-	wu1.insert(e.Event("res_pend", (1,0), 0))
+	wu1.insert(e.Event("res_pend", 1, 0))
 	wu1.printAll()
 
 	#insert 2 events at wu2
-	wu2.insert(e.Event("res_pend", (1,1), 1))
-	wu2.insert(e.Event("res_conf", (2,1), 1))
+	wu2.insert(e.Event("res_pend", 1, 1))
+	wu2.insert(e.Event("res_conf", 2, 1))
 	wu2.printAll()
 
 	#send of message from wu2 to wu1
@@ -29,6 +29,11 @@ def main():
 	np, oMC = wu1.send(wu3.mID)
 	wu3.receive(oMC, wu1.mID, np)
 	wu3.printAll()
+
+	ev = e.Event("res_pend", 1, 0)
+	print("EHERE")
+
+	print(ev)
 
 
 

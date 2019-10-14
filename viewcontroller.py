@@ -61,8 +61,11 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID):
 			print("view command received")
 
 		elif command[0] == "log":
-			for ev in wu.log:
-				print(ev.type, ev.inserted.resUser, ev.inserted.resPlaneList)
+			for ev in sorted(wu.log, key=lambda event: event.timeStamp):
+				if(ev.type == "insert"):
+					print(ev.type, ev.inserted.resUser, ev.inserted.resPlaneList)
+				elif(ev.type == "delete"):
+					print(ev.type, ev.deleted.resUser, ev.deleted.resPlaneList)
 			print("log command received")
 
 		elif command[0] == "send":
