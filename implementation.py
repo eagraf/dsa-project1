@@ -63,7 +63,8 @@ class Wuubern:
 				np.add(ev)
 		return np, self.myMC
 
-	def receive(self, oMC,oID, np):
+	def receive(self, oMC, oID, np):
+		print("hey!")
 		ne = set()
 		for ev in np:
 			if not self.hasRec(ev, self.mID):
@@ -106,6 +107,16 @@ class Wuubern:
 				newLog.add(ev)
 
 		self.log= newLog
+
+def happensBefore(mc1, mc2):
+	for i in range(len(self.myMC)):
+		for j in range(self.myMC[i]):
+			if mc2[i][j] > mc1[i][j]:
+				return False
+	return True
+
+def concurrent(mc1, mc2):
+	return (not happensBefore(mc1, mc2) and not happensBefore(mc2, mc1))
 
 
 
