@@ -7,6 +7,7 @@ import implementation as imp
 import event
 from messenger import Messenger
 from message import Message
+from stable_storage import StableStorage
 import planes
 
 def main():
@@ -24,19 +25,23 @@ def main():
 	messenger = Messenger(hosts[siteID], hosts)
 	airport = planes.Planes()
 
+	store = StableStorage()
+
 	if len(sys.argv) >= 3:
 		handle_test_file()
 	else:
-		wu = imp.Wuubern(len(hosts) ,hostToID[siteID])
+		#wu = imp.Wuubern(len(hosts), hostToID[siteID])
+		wu = store.initialize(len(hosts), hostToID[siteID])
 		messenger.add_listener(wu)
-		handle_user_input(wu, messenger, hosts, hostToID, siteID, airport)
+		messenger.add_listener(store)
+		handle_user_input(wu, messenger, hosts, hostToID, siteID, airport, store)
 
 
 def read_stable_storage():
 	''' If a stable storage file was written in this directory, read it to load dictionary '''
 	pass
 
-def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
+def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport, stable_storage):
 	''' Main loop for handling user input. '''
 	command = input().split(" ")
 	counter = 0
@@ -106,6 +111,9 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 		else:
 			print("invalid command")
 		
+		#  Write to stable storage
+		stable_storage.store()
+
 		# Wait for next command
 		command = input().split(" ")
 

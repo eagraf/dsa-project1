@@ -30,6 +30,7 @@ class Wuubern:
 
 		return
 
+	# Helper functions
 	def directKnowledge(self, oMC, oID):
 		for i in range(len(self.myMC)):
 			self.myMC[self.mID][i] = max(self.myMC[self.mID][i], oMC[oID][i])
@@ -41,6 +42,16 @@ class Wuubern:
 
 	def hasRec(self, event, otherSite):
 		return self.myMC[otherSite][event.pID] >= event.timeStamp[0]
+
+	def happensBefore(mc1, mc2):
+		for i in range(len(self.myMC)):
+			for j in range(self.myMC[i]):
+				if mc2[i][j] > mc1[i][j]:
+					return False
+		return True
+
+	def concurrent(mc1, mc2):
+		return (not happensBefore(mc1, mc2) and not happensBefore(mc2, mc1))
 
 	def insert(self, event):
 		self.counter += 1
@@ -108,16 +119,6 @@ class Wuubern:
 				newLog.add(ev)
 
 		self.log= newLog
-
-def happensBefore(mc1, mc2):
-	for i in range(len(self.myMC)):
-		for j in range(self.myMC[i]):
-			if mc2[i][j] > mc1[i][j]:
-				return False
-	return True
-
-def concurrent(mc1, mc2):
-	return (not happensBefore(mc1, mc2) and not happensBefore(mc2, mc1))
 
 
 
