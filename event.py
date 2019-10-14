@@ -1,7 +1,7 @@
 class Event:
 
-	def __init__(self, typ, timeStamp, pid):
-		self.time = timeStamp
+	def __init__(self, typ, time, pid):
+		self.timeStamp = (time,pid)
 		#possible types are: reservation, insert, delete
 		self.type = typ
 		self.pID = pid
@@ -14,12 +14,12 @@ class Event:
 		self.resPlaneList = None
 
 	def __str__(self):
-		s = "Timestamp:" + str(self.time) + '\n'
-		s += "Type:" + self.type + '\n'
+		s = "Timestamp:" + str(self.timeStamp[0]) +',' +str(self.timeStamp[1]) + '\t'
+		s += "Type:" + self.type + '\t'
 		if(self.inserted):
-			s += "Inserted Event\n"
+			s += "Inserted Event\t"
 		elif(self.deleted):
-			s += "Deleted Event\n"
+			s += "Deleted Event\t"
 
 		return s
 

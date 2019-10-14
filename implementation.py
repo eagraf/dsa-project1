@@ -19,9 +19,11 @@ class Wuubern:
 		print(s[:-1])
 
 		print("The current dictionary looks like:")
-		print(self.dct)
+		for ev in self.dct:
+			print(ev)
 		print("The current log looks like:")
-		print(self.log)
+		for ev in self.log:
+			print(ev)
 		print("Counter:" , self.counter)
 		print("My process id is:" , self.mID)
 		print()
@@ -38,7 +40,7 @@ class Wuubern:
 				self.myMC[i][j] = max(self.myMC[i][j], oMC[i][j])
 
 	def hasRec(self, event, otherSite):
-		return self.myMC[otherSite][event.pID] >= event.time
+		return self.myMC[otherSite][event.pID] >= event.timeStamp[0]
 
 	def insert(self, event):
 		self.counter += 1
