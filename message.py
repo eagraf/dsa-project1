@@ -6,4 +6,4 @@ class Message:
         self.clock = clock
 
     def __str__(self):
-        return self.message + '\n' + self.np + '\n' + self.clock + '\n'
+        return self.message + '\n' + self.np.__str__() + '\n' + self.clock.__str__() + '\n'

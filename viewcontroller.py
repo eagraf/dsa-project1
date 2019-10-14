@@ -65,14 +65,12 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID):
 
 		elif command[0] == "send":
 			np, myMC = wu.send(hostToID[command[1]])
-			if(len(command > 2)):
-				#if there is a message
-				continue
-			#add udp stuff
-			print("send command received")
+			if(len(command) > 2):
+				m = Message(np, myMC, command[2])
+			else:
+				m = Message(np, myMC)
 
 			host = command[1]
-			m = Message("np", "clocko", "Waddup")	
 			messenger.send((hosts[host]['ip_address'], hosts[host]['udp_end_port']), pickle.dumps(m))
 		elif command[0] == "sendall":
 			for id in hostToID.values():
