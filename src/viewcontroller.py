@@ -60,7 +60,7 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 			ev = event.Event("Reservation", counter, hostToID[siteID])
 			ev.resInfo(command[1], "pending", command[2])
 			wu.insert(ev)
-			print("reserve command received")
+			print("Reservation submitted for", command[1])
 
 		elif command[0] == "cancel":
 			counter += 1
@@ -68,12 +68,12 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 				if(e.resUser == command[1]):
 					wu.delete(ev)
 					break
-			print("cancel command received")
+			print("Reservation for", command[1], "canceled")
 
 		elif command[0] == "view":
 			for ev in wu.dct:
 				print(ev.resUser , ev.resPlaneList, ev.resStatus)
-			print("view command received")
+			#print("view command received")
 
 		elif command[0] == "log":
 			for ev in sorted(wu.log, key=lambda event: event.timeStamp):
@@ -81,7 +81,7 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 					print(ev.type, ev.inserted.resUser, ev.inserted.resPlaneList)
 				elif(ev.type == "delete"):
 					print(ev.type, ev.deleted.resUser, ev.deleted.resPlaneList)
-			print("log command received")
+			#print("log command received")
 
 		elif command[0] == "send":
 			np, myMC = wu.send(hostToID[command[1]])
@@ -100,7 +100,7 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 				messenger.send((host['ip_address'], host['udp_end_port']), pickle.dumps(m))
 
 		elif command[0] == "clock":
-			print("clock command received")
+			#print("clock command received")
 			for i in range(len(wu.myMC)):
 				for j in range(len(wu.myMC[i]) -1):
 					print(wu.myMC[i][j], end = " ")
