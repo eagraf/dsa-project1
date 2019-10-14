@@ -3,3 +3,4 @@ knownhosts.json
 /__pycache__/*
 Dockerfile
 docker-compose.yml
+.DS_STORE
