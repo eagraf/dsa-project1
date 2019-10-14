@@ -38,8 +38,6 @@ def read_stable_storage():
 
 def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport):
 	''' Main loop for handling user input. '''
-	print("Handling user input")
-
 	command = input().split(" ")
 	counter = 0
 	while command[0] != 'quit':
