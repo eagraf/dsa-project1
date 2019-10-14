@@ -22,6 +22,7 @@ def main():
 		hostToID[key] = count
 		hosts[key]['id'] = count
 		count += 1
+
 	messenger = Messenger(hosts[siteID], hosts)
 	airport = planes.Planes()
 
@@ -34,6 +35,7 @@ def main():
 		wu = store.initialize(len(hosts), hostToID[siteID])
 		messenger.add_listener(wu)
 		messenger.add_listener(store)
+		messenger.add_listener(airport)
 		handle_user_input(wu, messenger, hosts, hostToID, siteID, airport, store)
 
 
@@ -49,17 +51,12 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport, stable_st
 		if command[0] == "reserve" and len(command) == 3:
 			counter += 1
 
-			spotsLeft = True
-			plns = command[2].split(',')
-			plns = [int(x) for x in plns]
-			for pln in plns:
-				if(not airport.checkSpot(pln)):
-					spotsLeft = False
-					break
+			spotsLeft = airport.checkPlanes(command[2], command[1])
 			if not spotsLeft:
 				print("Cannot schedule reservation for", command[1])
 				continue
 
+			airport.addUser(command[1], hostToID[siteID], len(hosts.keys()))
 			ev = event.Event("Reservation", counter, hostToID[siteID])
 			ev.resInfo(command[1], "pending", command[2])
 			wu.insert(ev)
@@ -69,6 +66,11 @@ def handle_user_input(wu, messenger, hosts, hostToID, siteID, airport, stable_st
 			counter += 1
 			for e in wu.dct:
 				if(e.resUser == command[1]):
+					if e.resStatus == "confirmed":
+						plns = e.resPlaneList.split(',')
+						plns = [int(x) for x in plns]
+						for pln in plns:
+							airport.removeSpot(pln, e.resUser)
 					wu.delete(ev)
 					break
 			print("Reservation for", command[1], "canceled")
