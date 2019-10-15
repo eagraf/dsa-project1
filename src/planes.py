@@ -52,7 +52,8 @@ class Planes:
         print(self.users)
         for user in self.users.keys():
             print(currRecieve)
-            self.users[user].remove(currRecieve)
+            if currRecieve in self.users[user]:
+                self.users[user].remove(currRecieve)
         
         for user in self.users.keys():
             if len(self.users[user]) == 0:
@@ -68,7 +69,7 @@ class Planes:
                     self.bookSpot(pln, ev.resUser)
                 ev.resStatus = "confirmed"
             else:
-                counter += 1
+                #counter += 1
                 wu.delete(ev)
             if(ev.resUser == user):
                 break
