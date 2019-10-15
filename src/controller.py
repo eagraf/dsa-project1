@@ -18,10 +18,10 @@ class Controller:
 		with open('knownhosts.json') as hosts_file:
 			self.hosts = json.load(hosts_file)['hosts']
 
-		self.hostToID = dict()
+		#self.hostToID = dict()
 		count = 0
 		for key in sorted(self.hosts.keys()):
-			self.hostToID[key] = count
+			#self.hostToID[key] = count
 			self.hosts[key]['id'] = count
 			count += 1
 
@@ -34,7 +34,7 @@ class Controller:
 			handle_test_file()
 		else:
 			#wu = imp.Wuubern(len(hosts), hostToID[siteID])
-			wu = self.store.initialize(len(self.hosts), self.hostToID[self.siteID])
+			wu = self.store.initialize(len(self.hosts), self.hosts[self.siteID]['id'])
 			self.messenger.add_listener(wu)
 			self.messenger.add_listener(self.store)
 			self.messenger.add_listener(self.airport)
@@ -54,8 +54,8 @@ class Controller:
 					print("Cannot schedule reservation for", command[1])
 					continue
 
-				self.airport.addUser(command[1], self.hostToID[self.siteID], len(self.hosts.keys()))
-				ev = event.Event("Reservation", counter, self.hostToID[self.siteID])
+				self.airport.addUser(command[1], self.hosts[self.siteID], len(self.hosts.keys()))
+				ev = event.Event("Reservation", counter, self.hosts[self.siteID]['id'])
 				ev.resInfo(command[1], "pending", command[2])
 				wu.insert(ev)
 				print("Reservation submitted for", command[1])
@@ -85,7 +85,7 @@ class Controller:
 						print(ev.type, ev.deleted.resUser)
 
 			elif command[0] == "send":
-				np, myMC = wu.send(self.hostToID[command[1]])
+				np, myMC = wu.send(self.hosts[command[1]]['id'])
 				if(len(command) > 2):
 					m = Message(np, myMC, command[2])
 				else:
