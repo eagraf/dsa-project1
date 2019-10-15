@@ -18,10 +18,10 @@ class Controller:
 		with open('knownhosts.json') as hosts_file:
 			self.hosts = json.load(hosts_file)['hosts']
 
-		#self.hostToID = dict()
+		self.hostToID = dict()
 		count = 0
 		for key in sorted(self.hosts.keys()):
-#			self.hostToID[key] = count
+			self.hostToID[key] = count
 			self.hosts[key]['id'] = count
 			count += 1
 
