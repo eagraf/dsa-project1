@@ -46,9 +46,12 @@ class Planes:
         for i in range(numProcesses):
             if (i != myID):
                 self.users[name].append(i)
+        print(self.users)
     
     def receive(self,currRecieve, wu):
+        print(self.users)
         for user in self.users.keys():
+            print(currRecieve)
             self.users[user].remove(currRecieve)
         
         for user in self.users.keys():
