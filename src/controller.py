@@ -87,9 +87,9 @@ class Controller:
 			elif command[0] == "send":
 				np, myMC = wu.send(self.hosts[command[1]]['id'])
 				if(len(command) > 2):
-					m = Message(np, myMC, command[2])
+					m = Message(np, myMC, self.siteID, command[2])
 				else:
-					m = Message(np, myMC)
+					m = Message(np, myMC, self.siteID)
 
 				host = command[1]
 				self.messenger.send((self.hosts[host]['ip_address'], self.hosts[host]['udp_end_port']), pickle.dumps(m))
@@ -98,7 +98,7 @@ class Controller:
 				for key, host in self.hosts.items():
 					if key != self.siteID:
 						np, myMC = wu.send(host['id'])
-						m = Message(np, myMC)
+						m = Message(np, myMC, key)
 						self.messenger.send((host['ip_address'], host['udp_end_port']), pickle.dumps(m))
 
 			elif command[0] == "clock":

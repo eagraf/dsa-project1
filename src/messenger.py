@@ -31,10 +31,7 @@ class Messenger:
             data, server = self.recv_sock.recvfrom(1024)
             message = pickle.loads(data)
             #print(message.message)
-            pID = -1
-            for host in self.hosts.values():
-                if host['ip_address'] == server[0]:
-                    pID = host['id']
+            pID = self.hosts[message.siteID]['id']
 
             #for listener in self.listeners:
             self.listeners[0].receive(message.clock, pID, message.np) 
