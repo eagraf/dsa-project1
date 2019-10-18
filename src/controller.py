@@ -26,7 +26,7 @@ class Controller:
 			count += 1
 
 		self.messenger = Messenger(self.hosts[self.siteID], self.hosts)
-		self.airport = planes.Planes()
+		#self.airport = planes.Planes()
 
 		self.store = StableStorage()
 
@@ -34,7 +34,7 @@ class Controller:
 			handle_test_file()
 		else:
 			#wu = imp.Wuubern(len(hosts), hostToID[siteID])
-			wu = self.store.initialize(len(self.hosts), self.hosts[self.siteID]['id'])
+			wu, self.airport = self.store.initialize(len(self.hosts), self.hosts[self.siteID]['id'])
 			self.messenger.add_listener(wu)
 			self.messenger.add_listener(self.store)
 			self.messenger.add_listener(self.airport)
@@ -52,13 +52,12 @@ class Controller:
 				spotsLeft = self.airport.checkPlanes(command[2], command[1])
 				if not spotsLeft:
 					print("Cannot schedule reservation for", command[1])
-					continue
-
-				self.airport.addUser(command[1], self.hosts[self.siteID]['id'], len(self.hosts.keys()))
-				ev = event.Event("Reservation", counter, self.hosts[self.siteID]['id'])
-				ev.resInfo(command[1], "pending", command[2])
-				wu.insert(ev)
-				print("Reservation submitted for", command[1])
+				else:
+					self.airport.addUser(command[1], self.hosts[self.siteID]['id'], len(self.hosts.keys()))
+					ev = event.Event("Reservation", counter, self.hosts[self.siteID]['id'])
+					ev.resInfo(command[1], "pending", command[2])
+					wu.insert(ev)
+					print("Reservation submitted for", command[1])
 
 			elif command[0] == "cancel":
 				counter += 1
