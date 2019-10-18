@@ -26,7 +26,7 @@ class Controller:
 			count += 1
 
 		self.messenger = Messenger(self.hosts[self.siteID], self.hosts)
-		self.airport = planes.Planes()
+		#self.airport = planes.Planes()
 
 		self.store = StableStorage()
 
@@ -34,7 +34,7 @@ class Controller:
 			handle_test_file()
 		else:
 			#wu = imp.Wuubern(len(hosts), hostToID[siteID])
-			wu = self.store.initialize(len(self.hosts), self.hosts[self.siteID]['id'])
+			wu, self.airport = self.store.initialize(len(self.hosts), self.hosts[self.siteID]['id'])
 			self.messenger.add_listener(wu)
 			self.messenger.add_listener(self.store)
 			self.messenger.add_listener(self.airport)
