@@ -42,3 +42,18 @@ class Event:
 			self.resUser = user
 			self.resStatus = rstat
 			self.resPlaneList = planes
+
+	def __eq__(self, other):
+		return(
+			self.timeStamp == other.timeStamp and
+			self.type == other.type and
+			self.pID == other.pID and
+			self.resUser == other.resUser and
+			self.resPlaneList == other.resPlaneList
+			)
+
+	def __ne__(self, other):
+		return (not self == other)
+
+	def __hash__(self):
+		return hash((self.timeStamp, self.type, self.pID, self.resUser,self.resPlaneList))

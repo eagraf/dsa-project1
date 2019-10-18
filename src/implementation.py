@@ -78,30 +78,53 @@ class Wuubern:
 
 	def receive(self, oMC, oID, np):
 		ne = set()
+		#print(np)
+		'''
+		for ev in np:
+			if self.hasRec(ev, self.mID):
+				print("HEREEEE")
+				if ev.type == "insert":
+					print(ev.inserted.resStatus)
+					self.dct.remove(ev.inserted)
+					self.dct.add(ev.inserted)
+				if ev.type == "delete":
+					self.dct.remove(ev.deleted)
+					self.dct.add(ev.deleted)
+				self.log.remove(ev)
+				self.log.add(ev)
+		'''
+
+
 		for ev in np:
 			if not self.hasRec(ev, self.mID):
 				ne.add(ev)
+		print(ne)
 
 		insertEvents = set()
 		deleteEvents = set()
 		for ev in ne:
+			#thereExists = False
 			if ev.type == "insert":
-				if ev.inserted == None:
-					print("ERROR: no insert event????")
-				else:
-					insertEvents.add(ev.inserted)
+				#if ev.inserted == None:
+				#	print("ERROR: no insert event????")
+				#else:
+				insertEvents.add(ev.inserted)
 			if ev.type == "delete":
-				if ev.deleted == None:
-					print("ERROR: no delete event????")
-				else:
+				#if ev.deleted == None:
+				#	print("ERROR: no delete event????")
+				#else:
+					print("AT DELETE")
 					deleteEvents.add(ev.deleted)
+
 
 		v = set()
 		for ev in self.dct:
 			if ev not in deleteEvents:
+				print("original")
 				v.add(ev)
 		for ev in insertEvents:
 			if ev not in deleteEvents:
+				print("new")
 				v.add(ev)
 		self.dct = v
 
