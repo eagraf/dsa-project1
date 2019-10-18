@@ -69,13 +69,13 @@ class Controller:
 							plns = [int(x) for x in plns]
 							for pln in plns:
 								self.airport.removeSpot(pln, e.resUser)
-						wu.delete(ev)
+						wu.delete(e)
 						break
 				print("Reservation for", command[1], "canceled")
 
 			elif command[0] == "view":
 				for ev in sorted(wu.dct, key=lambda event: event.resUser):
-					print(ev.resUser , ev.resPlaneList, ev.resStatus)
+					print(ev.resUser, ev.resPlaneList, ev.resStatus)
 
 			elif command[0] == "log":
 				for ev in sorted(wu.log, key=lambda event: event.timeStamp):
