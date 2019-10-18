@@ -52,13 +52,12 @@ class Controller:
 				spotsLeft = self.airport.checkPlanes(command[2], command[1])
 				if not spotsLeft:
 					print("Cannot schedule reservation for", command[1])
-					continue
-
-				self.airport.addUser(command[1], self.hosts[self.siteID]['id'], len(self.hosts.keys()))
-				ev = event.Event("Reservation", counter, self.hosts[self.siteID]['id'])
-				ev.resInfo(command[1], "pending", command[2])
-				wu.insert(ev)
-				print("Reservation submitted for", command[1])
+				else:
+					self.airport.addUser(command[1], self.hosts[self.siteID]['id'], len(self.hosts.keys()))
+					ev = event.Event("Reservation", counter, self.hosts[self.siteID]['id'])
+					ev.resInfo(command[1], "pending", command[2])
+					wu.insert(ev)
+					print("Reservation submitted for", command[1])
 
 			elif command[0] == "cancel":
 				counter += 1
