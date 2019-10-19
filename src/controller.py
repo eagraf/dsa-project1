@@ -100,7 +100,7 @@ class Controller:
 						np, myMC = wu.send(host['id'])
 						np1 = np1.union(np)
 
-				m = Message(np1, myMC, key)
+				m = Message(np1, myMC, self.siteID)
 
 				for key, host in self.hosts.items():
 					self.messenger.send((host['ip_address'], host['udp_end_port']), pickle.dumps(m))
