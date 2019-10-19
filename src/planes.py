@@ -67,6 +67,7 @@ class Planes:
         for user in self.users.keys():
             if len(self.users[user]) == 0:
                 self.changeStatus(user, wu)
+        print(self.allPlanes)
 
     def changeStatus(self, user, wu):
         for ev in sorted(wu.dct, key=lambda event: event.timeStamp):
