@@ -46,7 +46,16 @@ class Planes:
         for i in range(numProcesses):
             if (i != myID):
                 self.users[name].append(i)
-        print(self.users)
+        #print(self.users)
+
+    def receiveAdd(self, names, myID, numProcesses):
+        for name in names:
+            if name not in self.users.keys():
+                self.users[name] = list()
+                for i in range(numProcesses):
+                    if (i != myID):
+                        self.users[name].append(i)
+        #print(self.users)
     
     def receive(self,currRecieve, wu):
         print(self.users)

@@ -93,12 +93,10 @@ class Wuubern:
 				self.log.remove(ev)
 				self.log.add(ev)
 		'''
-
-
 		for ev in np:
 			if not self.hasRec(ev, self.mID):
 				ne.add(ev)
-		print(ne)
+		#print(ne)
 
 		insertEvents = set()
 		deleteEvents = set()
@@ -142,6 +140,13 @@ class Wuubern:
 				newLog.add(ev)
 
 		self.log= newLog
+	
+	def getUsers(self, np):
+		users = set()
+		for ev in np:
+			if ev.type == "insert":
+				users.add(ev.inserted.resUser)
+		return users, self.mID		
 
 	
 
