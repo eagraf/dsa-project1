@@ -60,17 +60,19 @@ class Planes:
     def receive(self,currRecieve, wu):
         print(self.users)
         for user in self.users.keys():
-            print(currRecieve)
             if currRecieve in self.users[user]:
                 self.users[user].remove(currRecieve)
-        
+        print(self.users)
         for user in self.users.keys():
             if len(self.users[user]) == 0:
+                print(user)
                 self.changeStatus(user, wu)
         print(self.allPlanes)
 
     def changeStatus(self, user, wu):
         for ev in sorted(wu.dct, key=lambda event: event.timeStamp):
+            if len(self.users[ev.resUser]) != 0:
+                continue 
             spotsLeft = self.checkPlanes(ev.resPlaneList, ev.resUser)
             if spotsLeft:
                 plns = ev.resPlaneList.split(',')
