@@ -101,7 +101,9 @@ class Controller:
 						np1 = np1.union(np)
 
 				m = Message(np1, myMC, key)
-				self.messenger.send((host['ip_address'], host['udp_end_port']), pickle.dumps(m))
+
+				for key, host in self.hosts.items():
+					self.messenger.send((host['ip_address'], host['udp_end_port']), pickle.dumps(m))
 
 			elif command[0] == "clock":
 				for i in range(len(wu.myMC)):
