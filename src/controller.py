@@ -51,7 +51,7 @@ class Controller:
 
 				spotsLeft = self.airport.checkPlanes(command[2], command[1])
 				if not spotsLeft:
-					print("Cannot schedule reservation for", command[1])
+					print("Cannot schedule reservation for", command[1], ".")
 				else:
 					plns = command[2].split(',')
 					plns = [int(x) for x in plns]
@@ -59,7 +59,7 @@ class Controller:
 					ev = event.Event("Reservation", counter, self.hosts[self.siteID]['id'])
 					ev.resInfo(command[1], "pending", command[2])
 					wu.insert(ev)
-					print("Reservation submitted for", command[1])
+					print("Reservation submitted for", command[1], ".")
 
 			elif command[0] == "cancel":
 				counter += 1
@@ -72,7 +72,7 @@ class Controller:
 								self.airport.removeSpot(pln, e.resUser)
 						wu.delete(e)
 						break
-				print("Reservation for", command[1], "canceled")
+				print("Reservation for", command[1], "cancelled.")
 
 			elif command[0] == "view":
 				for ev in sorted(wu.dct, key=lambda event: event.resUser):
