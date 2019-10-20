@@ -37,6 +37,6 @@ class Messenger:
             self.listeners[0].receive(message.clock, pID, message.np) 
             self.listeners[1].receive(message.clock, pID, message.np)
             
-            users, myID = self.listeners[0].getUsers(message.np)
-            self.listeners[2].receiveAdd(users, myID, len(self.hosts))
+            users, myID, userPlanes = self.listeners[0].getUsers(message.np)
+            self.listeners[2].receiveAdd(users, myID, len(self.hosts), userPlanes)
             self.listeners[2].receive(pID, self.listeners[0])

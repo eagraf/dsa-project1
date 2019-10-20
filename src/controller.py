@@ -53,7 +53,9 @@ class Controller:
 				if not spotsLeft:
 					print("Cannot schedule reservation for", command[1])
 				else:
-					self.airport.addUser(command[1], self.hosts[self.siteID]['id'], len(self.hosts.keys()))
+					plns = command[2].split(',')
+					plns = [int(x) for x in plns]
+					self.airport.addUser(command[1], self.hosts[self.siteID]['id'], len(self.hosts.keys()), plns)
 					ev = event.Event("Reservation", counter, self.hosts[self.siteID]['id'])
 					ev.resInfo(command[1], "pending", command[2])
 					wu.insert(ev)

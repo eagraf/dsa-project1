@@ -111,18 +111,16 @@ class Wuubern:
 				#if ev.deleted == None:
 				#	print("ERROR: no delete event????")
 				#else:
-					print("AT DELETE")
+					#print("AT DELETE")
 					deleteEvents.add(ev.deleted)
 
 
 		v = set()
 		for ev in self.dct:
 			if ev not in deleteEvents:
-				print("original")
 				v.add(ev)
 		for ev in insertEvents:
 			if ev not in deleteEvents:
-				print("new")
 				v.add(ev)
 		self.dct = v
 
@@ -143,10 +141,16 @@ class Wuubern:
 	
 	def getUsers(self, np):
 		users = set()
+		userPlanes = dict()
 		for ev in np:
 			if ev.type == "insert":
+				plns = list()
+				if ev.inserted.resPlaneList != None:
+					plns = ev.inserted.resPlaneList.split(',')
+					plns = [int(x) for x in plns]
 				users.add(ev.inserted.resUser)
-		return users, self.mID		
+				userPlanes[ev.inserted.resUser] = plns
+		return users, self.mID, userPlanes
 
 	
 

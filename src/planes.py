@@ -3,6 +3,7 @@ class Planes:
     def __init__(self):
         self.allPlanes = [[0, 0]  for i in range(20)]
         self.users = dict()
+        self.userPlanes = dict()
 
     #returns true if spot, false if no stop
     def checkSpot(self, plane, name):
@@ -41,51 +42,61 @@ class Planes:
             self.allPlanes[plane][0] = 0
         return True
 
-    def addUser(self, name, myID, numProcesses):
+    def addUser(self, name, myID, numProcesses, planesList):
         self.users[name] = list()
+        if name in self.userPlanes:
+            self.userPlanes[name] = list(set(self.userPlanes[name]).union(planesList))
+        else:
+            self.userPlanes[name] = planesList
         for i in range(numProcesses):
             if (i != myID):
                 self.users[name].append(i)
-        #print(self.users)
 
-    def receiveAdd(self, names, myID, numProcesses):
+    def receiveAdd(self, names, myID, numProcesses, userPlanes):
         for name in names:
             if name not in self.users.keys():
                 self.users[name] = list()
                 for i in range(numProcesses):
                     if (i != myID):
                         self.users[name].append(i)
-        #print(self.users)
+        for name, planes in userPlanes.items():
+            if name in self.userPlanes:
+                self.userPlanes[name] = list(set(self.userPlanes[name]).union(planes))
+            else:
+                self.userPlanes[name] = planes
     
     def receive(self,currRecieve, wu):
-        print(self.users)
         for user in self.users.keys():
             if currRecieve in self.users[user]:
                 self.users[user].remove(currRecieve)
-        print(self.users)
         for user in self.users.keys():
             if len(self.users[user]) == 0:
-                print(user)
                 self.changeStatus(user, wu)
-        print(self.allPlanes)
 
     def changeStatus(self, user, wu):
         for ev in sorted(wu.dct, key=lambda event: event.timeStamp):
-            if len(self.users[ev.resUser]) != 0:
-                continue 
-            spotsLeft = self.checkPlanes(ev.resPlaneList, ev.resUser)
-            if spotsLeft:
-                plns = ev.resPlaneList.split(',')
-                plns = [int(x) for x in plns]
-                for pln in plns:
-                    self.bookSpot(pln, ev.resUser)
-                ev.resStatus = "confirmed"
-            else:
-                #counter += 1
-                wu.delete(ev)
-            if(ev.resUser == user):
-                break
-            
+            #if len(self.users[ev.resUser]) != 0:
+            #    continue 
+
+            plns = ev.resPlaneList.split(',')
+            plns = [int(x) for x in plns]
+            if len(set(self.userPlanes[user]).intersection(set(plns))) > 0:
+                spotsLeft = self.checkPlanes(ev.resPlaneList, ev.resUser)
+                if spotsLeft:
+                    #if len(self.users[ev.resUser]) != 0:
+                    #    continue 
+                    #if ev.resUser == user:
+                    #plns = ev.resPlaneList.split(',')
+                    #plns = [int(x) for x in plns]
+                    for pln in plns:
+                        self.bookSpot(pln, ev.resUser)
+                    ev.resStatus = "confirmed"
+                else:
+                    #counter += 1
+                    wu.delete(ev)
+                if(ev.resUser == user):
+                    break
+                
 
 
 
